@@ -1,0 +1,5 @@
+match and match_phrase 
+
+match => search inverted string, like a text
+match_phrase => search full string, like a keyword
+

@@ -1,0 +1,74 @@
+### CREATE INDEX ###
+PUT http://localhost:9200/index_name
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 2
+  },
+  "mappings": {
+    "dynamic_templates": [
+      {
+        "date": {
+          "match_mapping_type": "date",
+          "mapping": {
+            "type": "date"
+          }
+        }
+      }
+    ]
+  }
+}
+
+### DELETE INDEX ###
+DELETE http://localhost:9200/index_name
+
+### UPDATE INDEX FULLY ###
+PUT http://localhost:9200/nama_index/type/id
+{
+  "content": "new content again",
+  "user_name": "sdfdsf",
+  "tweeted_at": "2022-01-01"
+}
+
+### UPDATE INDEX PARTIALLY ###
+POST http://localhost:9200/nama_index/_update/id
+{
+  "doc": {
+    "hobby": [
+      "coding",
+      "drawing"
+    ]
+  }
+}
+
+### BOOL SEARCH ###
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "user_name": "pls"
+          }
+        },
+        {
+          "match": {
+            "content": "updated"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+### NORMAL SEARCH ###
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": false,
+  "fields": [
+    "*"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "query": {
+    "bool": {
+      "must": [],
+      "should": [],
+      "filter": [],
+      "must_not": []
+    }
+  }
+}
+
+must => AND
+should => OR
+filter => filter
+must_not => NOT
+
+EXAMPLES
+
+1. Search title with text dick AND jane
+GET learn_zero_to_hero/_search
+{
+  "_source": [
+    "title"
+  ],
+  "min_score": 0.5,
+  "size": 10,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "title": "Dick"
+          }
+        },
+        {
+          "match": {
+            "title": "Jane"
+          }
+        }
+      ],
+      "should": [],
+      "filter": [],
+      "must_not": []
+    }
+  }
+}
+
+2. Search title which contains King or Norm and NOT contain word Drug or North
+GET learn_zero_to_hero/_search
+{
+  "_source": [
+    "title"
+  ],
+  "min_score": 0.5,
+  "size": 10,
+  "query": {
+    "bool": {
+      "must": [],
+      "should": [
+        {
+          "match": {
+            "title": "Norm"
+          }
+        },
+        {
+          "match": {
+            "title": "King"
+          }
+        }
+      ],
+      "filter": [],
+      "must_not": [
+        {
+          "bool": {
+            "should": [
+              {
+                "match_phrase": {
+                  "title": "North"
+                }
+              },
+              {
+                "match_phrase": {
+                  "title": "Drug"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

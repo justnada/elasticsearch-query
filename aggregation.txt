@@ -1,0 +1,33 @@
+### TERMS AGGS ###
+Example
+1. Test 1
+- Create aggs called "Duration" with type of aggs is "terms" from field duration, and order counting desc
+- Create aggs called "Year" type terms from release_year
+- Only show aggs by set size:0
+
+{
+  "size": 0,
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "Duration": {
+      "terms": {
+        "field": "duration",
+        "order": {
+          "_count": "desc"
+        },
+        "size": 5
+      }
+    },
+    "Year": {
+      "terms": {
+        "field": "release_year",
+        "order": {
+          "_key": "desc"
+        },
+        "size": 5
+      }
+    }
+  }
+}}

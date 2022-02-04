@@ -1,0 +1,64 @@
+Example
+
+1. Define custom mapping for geo field type
+{
+  "mappings": {
+    "properties": {
+      "geo": {
+        "type": "geo_point"
+      }
+    }
+  }
+}
+
+
+2. Search with filter geo distance in 2000km with specified latitude and longtitude
+
+GET l_geo/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "name": {
+              "query": "New York"
+            }
+          }
+        }
+      ],
+      "filter": [
+        {
+          "geo_distance": {
+            "distance": "2000km",
+            "geo": {
+              "lat": 48,
+              "lon": -122.48
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+3. Aggregation in geo point
+GET l_geo/_search
+{
+  "aggs": {
+    "test_aggs": {
+      "geo_distance": {
+        "field": "geo",
+        "origin": {
+          "lat": 45.75,
+          "lon": -122.48
+        },
+         "ranges": [
+          { "to": 100000 },
+          { "from": 100000, "to": 300000 },
+          { "from": 300000 }
+        ]
+      }
+    }
+  }
+}
